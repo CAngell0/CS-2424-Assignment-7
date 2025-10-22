@@ -5,6 +5,15 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class BinarySearchTree<E extends Comparable<? super E>> implements SortedSet<E>{
+    private E value;
+    private BinarySearchTree<E> leftNode;
+    private BinarySearchTree<E> rightNode;
+
+    public BinarySearchTree(E value, BinarySearchTree<E> leftNode, BinarySearchTree<E> rightNode){
+        this.value = value;
+        this.leftNode = leftNode;
+        this.rightNode = rightNode;
+    }
 
     @Override
     public boolean add(E item) {
@@ -50,8 +59,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public E max() throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'max'");
+        BinarySearchTree<E> node = this;
+        while (node.rightNode != null) node = node.rightNode;
+        return node.value;
     }
 
     @Override
