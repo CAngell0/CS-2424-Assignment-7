@@ -17,8 +17,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public boolean add(E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        return false;
     }
 
     @Override
@@ -36,14 +35,28 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public boolean contains(E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+        if (value == null && leftNode == null && rightNode == null) return false;
+        BinarySearchTree<E> node = this;
+        int comparison = 0;
+
+        do {
+            comparison = node.value.compareTo(item);
+            if (comparison < 0) node = leftNode;
+            else if (comparison > 0) node = rightNode;
+
+            if (node == null) return false;
+        }
+        while (comparison != 0);
+
+        return true;
     }
 
     @Override
     public boolean containsAll(Collection<? extends E> items) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'containsAll'");
+        for (E item : items){
+            if (!contains(item)) return false;
+        }
+        return true;
     }
 
     @Override
