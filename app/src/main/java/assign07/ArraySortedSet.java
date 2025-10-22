@@ -1,20 +1,26 @@
 package assign07;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSet<E> {
-    private E[] arr;
+    private Object[] arr;
     private int size;
     private int defaultSize;
 
     @SuppressWarnings("unchecked")
     public ArraySortedSet(){
-        this.arr = (E[]) new Object[10];
+        this.arr = new Object[10];
         this.defaultSize = 10;
         this.size = 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    private E getter(int i){
+        return (E) arr[i];
     }
 
     /**
@@ -24,8 +30,8 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
     @SuppressWarnings("unchecked")
     private void doubleArraySize(){
         //Creates a copy of the original array and resets the old array with a doubled size
-        E[] originalCopy = Arrays.copyOf(arr, arr.length);
-        arr = (E[]) new Object[arr.length * 2];
+        Object[] originalCopy = Arrays.copyOf(arr, arr.length);
+        arr = new Object[arr.length * 2];
 
         //Puts all the data into the newly sized array
         for (int i = 0; i < originalCopy.length; i++){
@@ -45,7 +51,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         
         while (low <= high){
             int mid = (low + high) / 2;
-            int c = arr[mid].compareTo(element);
+            int c = getter(mid).compareTo(element);
 
             if(c < 0) low = mid + 1;
             else if(c > 0) high = mid -1;
@@ -70,7 +76,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         int place = searchResult >= 0 ? searchResult: -(searchResult + 1);
         
         //Shifts elements to the right
-        for(int i = size; i > place; i--) this.arr[i] = this.arr[i-1];
+        for(int i = size; i > place; i--) this.arr[i] = getter(i-1);
 
         this.arr[place] = element;
         size++;
@@ -98,7 +104,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
     @Override
     @SuppressWarnings("unchecked")
     public void clear() {
-        arr = (E[]) new Object[defaultSize];
+        arr = new Object[defaultSize];
         this.size = 0;
     }
 
@@ -123,13 +129,13 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
     @Override
     public E min() throws NoSuchElementException {
         if (size == 0) throw new NoSuchElementException("Set is empty.");
-        return arr[0];
+        return getter(0);
     }
 
     @Override
     public E max() throws NoSuchElementException {
         if (size == 0) throw new NoSuchElementException("Set is empty.");
-        return arr[size - 1];
+        return getter(size-1);
     }
 
     @Override
@@ -139,6 +145,8 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
 
     @Override
     public ArrayList<E> toArrayList() {
-        return (ArrayList<E>) Arrays.asList(arr).subList(0, size);
+        ArrayList<E> returnList = new ArrayList<>(size);
+        for(int i = 0; i < this.size; i++) returnList.add(getter(i));
+        return returnList;
     }
 }
