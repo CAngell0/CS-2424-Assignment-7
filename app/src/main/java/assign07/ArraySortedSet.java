@@ -17,7 +17,11 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         this.size = 0;
     }
 
-    /**Double the backing array's size */
+    /**
+     * Double the backing array's size 
+     * @note Method was copied from SortedArrayList in assignment 3
+     */
+    @SuppressWarnings("unchecked")
     private void doubleArraySize(){
         //Creates a copy of the original array and resets the old array with a doubled size
         E[] originalCopy = Arrays.copyOf(arr, arr.length);
@@ -33,6 +37,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
      * A helper binary search method to be used throughout the class
      * @param element The element to search for
      * @return Returns the index if the element was found (or an index of where it should be)
+     * @note Method was copied from SortedArrayList in assignment 3
      */
     private int binarySearch(E element){
         int low = 0;
@@ -50,10 +55,33 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return -(low + 1);
     }
 
+    /**
+     * Inserts the element into the backing array.
+     * @param element The element to insert
+     * @note Method was copied from SortedArrayList in assignment 3
+     */
+    private void insert(E element) {
+        //If the array is full, double its size
+        if (this.size == arr.length) doubleArraySize();
+
+        //Finds where the element should go using binary search
+        //The ternary operator changes the searchResult value to the right index if the element is new to the array
+        int searchResult = this.binarySearch(element);
+        int place = searchResult >= 0 ? searchResult: -(searchResult + 1);
+        
+        //Shifts elements to the right
+        for(int i = size; i > place; i--) this.arr[i] = this.arr[i-1];
+
+        this.arr[place] = element;
+        size++;
+    }
+
     @Override
     public boolean add(E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        if (contains(item)) return false;
+
+        insert(item);
+        return true;
     }
 
     @Override
@@ -63,45 +91,45 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+        arr = (E[]) new Object[defaultSize];
+        this.size = 0;
     }
 
     @Override
     public boolean contains(E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'contains'");
+        return this.binarySearch(item) >= 0;
     }
 
     @Override
     public boolean containsAll(Collection<? extends E> items) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'containsAll'");
+        for (E item : items){
+            if (this.binarySearch(item) < 0) return false;
+        }
+        return true;
     }
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+        return this.size == 0;
     }
 
     @Override
     public E min() throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'min'");
+        if (size == 0) throw new NoSuchElementException("Set is empty.");
+        return arr[0];
     }
 
     @Override
     public E max() throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'max'");
+        if (size == 0) throw new NoSuchElementException("Set is empty.");
+        return arr[size - 1];
     }
 
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
+        return this.size;
     }
 
     @Override
@@ -109,5 +137,4 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'toArrayList'");
     }
-    
 }
