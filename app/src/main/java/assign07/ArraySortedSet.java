@@ -86,8 +86,13 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
 
     @Override
     public boolean addAll(Collection<? extends E> items) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAll'");
+        boolean didAdd = false;
+        for(E item : items){    
+            if(this.add(item)){
+                didAdd = true;
+            }
+        }
+        return didAdd;
     }
 
     @Override
@@ -134,7 +139,6 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
 
     @Override
     public ArrayList<E> toArrayList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArrayList'");
+        return (ArrayList<E>) Arrays.asList(arr).subList(0, size);
     }
 }
