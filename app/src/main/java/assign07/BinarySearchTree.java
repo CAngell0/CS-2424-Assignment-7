@@ -29,8 +29,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clear'");
+        this.value = null;
+        this.leftNode = null;
+        this.rightNode = null;
     }
 
     @Override
@@ -47,14 +48,14 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEmpty'");
+        return (this.size() == 0);
     }
 
     @Override
     public E min() throws NoSuchElementException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'min'");
+        BinarySearchTree<E> node = this;
+        while (node.leftNode != null) node = node.leftNode;
+        return node.value;
     }
 
     @Override
@@ -66,9 +67,15 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'size'");
+        return size(this);    
     }
+
+    private int size(BinarySearchTree<E> node){
+        if(node == null || node.value == null) return 0;
+        return 1+ size(node.leftNode) + size(node.rightNode);
+    }
+
+
 
     @Override
     public ArrayList<E> toArrayList() {
