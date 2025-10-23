@@ -151,3 +151,87 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return Math.max(leftDepth, rightDepth) + 1;
     }
 }
+/*
+ * Short answer: No, not as-is. Your toArrayList will break and it also doesn’t match what a SortedSet’s toArrayList() usually means (sorted contents). Here’s what’s wrong and how to fix it—both for a heap-style array layout and for the sorted list most graders expect.
+
+What’s broken in your current toArrayList
+
+Capacity ≠ size:
+new ArrayList<>(k) sets capacity, not size. list.set(idx, …) will throw IndexOutOfBoundsException because the list’s size is 0.
+→ You must prefill with null up to the needed size.
+
+Wrong length:
+For a tree of depth d (levels counted as 1 at the root), the full array size is 2^d - 1, not 2^d.
+
+Null-child recursion:
+You call leftNode.addValuesToArrayList(...) and rightNode... without null checks → NullPointerException on leaves.
+
+Empty tree case:
+If value == null, your code still tries to write/root and recurse → NPE again.
+
+Semantics mismatch:
+A SortedSet’s toArrayList() usually means sorted ascending with no holes. Your method creates a level-order, heap-style array with null gaps. That’s fine for a tree representation method, but it’s not the usual meaning of set→array.
+
+Fix A — Return a sorted list (recommended for SortedSet)
+
+Use in-order traversal. This is simple, linear time, and matches expectations.
+
+@Override
+public ArrayList<E> toArrayList() {
+    ArrayList<E> out = new ArrayList<>();
+    inorder(this, out);
+    return out;
+}
+
+private void inorder(BinarySearchTree<E> node, ArrayList<E> out) {
+    if (node == null || node.value == null) return;
+    inorder(node.leftNode, out);
+    out.add(node.value);
+    inorder(node.rightNode, out);
+}
+
+Fix B — If you really want heap-style array layout
+
+Rename it to something like toLevelArray() to avoid confusion, and fix the bugs:
+
+public ArrayList<E> toLevelArray() {
+    int depth = getDepth();                 // depth = 0 for empty, 1 for single node
+    if (depth == 0) return new ArrayList<>();
+
+    int n = (1 << depth) - 1;               // total slots in a complete tree of this depth
+    ArrayList<E> list = new ArrayList<>(n);
+    for (int i = 0; i < n; i++) list.add(null);
+
+    fillLevelArray(this, 0, 0, list);       // level=0, position=0 at that level
+    return list;
+}
+
+private void fillLevelArray(BinarySearchTree<E> node, int level, int pos, ArrayList<E> out) {
+    if (node == null || node.value == null) return;
+    int idx = (1 << level) + pos - 1;       // 0-based index for (level, pos)
+    out.set(idx, node.value);
+    fillLevelArray(node.leftNode,  level + 1, pos * 2,     out);
+    fillLevelArray(node.rightNode, level + 1, pos * 2 + 1, out);
+}
+
+private int getDepth() {
+    if (this.value == null) return 0;
+    int l = (leftNode  == null) ? 0 : leftNode.getDepth();
+    int r = (rightNode == null) ? 0 : rightNode.getDepth();
+    return 1 + Math.max(l, r);
+}
+
+Notes on this version
+
+Root at (level=0, pos=0) maps to idx = 0.
+
+For a node at (level=L, pos=P), children are (L+1, 2P) and (L+1, 2P+1).
+
+This builds a complete-tree array with null for missing nodes. It does not sort.
+
+Which one should you use?
+
+If your grader expects set semantics: Fix A (in-order).
+
+If you need a structural, heap-style representation for a diagram or assignment note: Fix B, but don’t call it toArrayList()—use a distinct name to avoid failing semantic tests.
+ */
