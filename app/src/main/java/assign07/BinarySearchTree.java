@@ -17,13 +17,49 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public boolean add(E item) {
-        return false;
+        // empty tree
+        if(this.value == null){
+            this.value = item;
+            this.leftNode = null;
+            this.rightNode = null;
+
+            return true;
+        }
+
+        int cmp = item.compareTo(this.value);
+
+        //duplicate
+        if(cmp == 0){
+            return false;
+        } 
+        //item smaller 
+        else if(cmp < 0){
+            if(this.leftNode == null){
+                this.leftNode = new BinarySearchTree<>(item, null, null);
+                return true;
+            }
+            return this.leftNode.add(item);
+        }
+        //item larger
+        else{
+            if(this.rightNode == null){
+                this.rightNode = new BinarySearchTree<>(item, null, null);
+                return true;
+            }
+            return this.rightNode.add(item);
+        }
+
     }
 
     @Override
     public boolean addAll(Collection<? extends E> items) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAll'");
+        boolean didAdd = false;
+        for(E item:items){
+            if(this.add(item)){
+                didAdd = true;
+            }
+        }
+        return didAdd;
     }
 
     @Override
@@ -92,7 +128,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public ArrayList<E> toArrayList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toArrayList'");
+        
+
+        
     }
+
 }
