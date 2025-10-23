@@ -48,7 +48,6 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
             }
             return this.rightNode.add(item);
         }
-
     }
 
     @Override
