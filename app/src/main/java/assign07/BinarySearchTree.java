@@ -76,9 +76,9 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         int comparison = 0;
 
         do {
-            comparison = node.value.compareTo(item);
-            if (comparison < 0) node = leftNode;
-            else if (comparison > 0) node = rightNode;
+            comparison = item.compareTo(node.value);
+            if (comparison < 0) node = node.leftNode;
+            else if (comparison > 0) node = node.rightNode;
 
             if (node == null) return false;
         }
@@ -128,9 +128,26 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public ArrayList<E> toArrayList() {
-        
+        ArrayList<E> list = new ArrayList<E>((int) Math.pow(2, getDepth()));
 
-        
+        this.addValuesToArrayList(list, 0, 0);
+
+        return list;
     }
 
+    private void addValuesToArrayList(ArrayList<E> list, int level, int position){
+        list.set((int) (Math.pow(2, level) + position - 1), value);
+        leftNode.addValuesToArrayList(list, level + 1, position * 2);
+        rightNode.addValuesToArrayList(list, level + 1, position * 2 + 1);
+    }
+
+    private int getDepth(){
+        if (leftNode == null && rightNode == null) return 1;
+
+        int leftDepth = 0, rightDepth = 0;
+        if (this.leftNode != null) leftDepth = leftNode.getDepth();
+        if (this.rightNode != null) rightDepth = rightNode.getDepth();
+
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
 }
