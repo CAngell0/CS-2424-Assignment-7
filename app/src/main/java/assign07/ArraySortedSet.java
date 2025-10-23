@@ -81,6 +81,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
 
     @Override
     public boolean add(E item) {
+        if (item == null) return false;
         if (contains(item)) return false;
 
         insert(item);
