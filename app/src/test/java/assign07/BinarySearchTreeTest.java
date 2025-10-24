@@ -93,4 +93,30 @@ public class BinarySearchTreeTest {
             assertEquals(arr1SetSorted[index], arrayList.get(index));
         }
     }
+
+    @Test
+    void testRemove(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        tree.remove(6);
+        tree.remove(7);
+        tree.remove(-7);
+
+        Integer[] newArr1SortedSet = {-1, 1, 2, 4, 5, 9, 10, 19, 23};
+        ArrayList<Integer> arrayList = tree.toArrayList();
+
+
+        assertNotNull(tree);
+        assertNotNull(arrayList);
+        assertEquals(9, tree.size());
+        assertEquals(9, newArr1SortedSet.length);
+        assertEquals(9, arrayList.size());
+        assertEquals(newArr1SortedSet.length, arrayList.size());
+        for (int index = 0; index < newArr1SortedSet.length; index++){
+            assertEquals(newArr1SortedSet[index], arrayList.get(index));
+        }
+    }
 }
