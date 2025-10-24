@@ -96,11 +96,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public boolean isEmpty() {
-        return (this.size() == 0);
+        return(this.value == null && this.leftNode == null && this.rightNode == null);
     }
 
     @Override
     public E min() throws NoSuchElementException {
+        if(this.value == null) throw new NoSuchElementException("The tree is empty.");
         BinarySearchTree<E> node = this;
         while (node.leftNode != null) node = node.leftNode;
         return node.value;
@@ -108,6 +109,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     @Override
     public E max() throws NoSuchElementException {
+        if(this.value == null) throw new NoSuchElementException("The tree is empty.");
         BinarySearchTree<E> node = this;
         while (node.rightNode != null) node = node.rightNode;
         return node.value;
