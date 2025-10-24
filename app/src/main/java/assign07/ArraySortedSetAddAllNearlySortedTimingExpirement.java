@@ -14,6 +14,7 @@ public class ArraySortedSetAddAllNearlySortedTimingExpirement extends TimingExpe
         int iterationCount = 50;
         int warmup = 20;
         List<Integer> problemSizes = buildProblemSizes(10000, 1000, 200);
+        // List<Integer> problemSizes = buildProblemSizes(10000, 1000, 40);
 
         TimingExperiment experiment = new ArraySortedSetAddAllNearlySortedTimingExpirement("setSize", problemSizes, iterationCount);
 

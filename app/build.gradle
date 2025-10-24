@@ -34,7 +34,7 @@ java {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'assign07.ArraySortedSetAddAllNearlySortedTimingExpirement'
+        attributes 'Main-Class': 'assign07.ArraySortedSetAddAllRandomOrderTimingExperiment'
     }
 }
 
