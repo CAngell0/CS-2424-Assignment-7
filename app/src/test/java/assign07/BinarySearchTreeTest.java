@@ -10,10 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 public class BinarySearchTreeTest {
     private BinarySearchTree<Integer> empty;
     private BinarySearchTree<Integer> tree;
+    private Integer[] arr1 = {5, 1, 6, 9, 10, 2, 4, 23, 19, -1, -7, 2, 5, 7};
+    private Integer[] arr1SetSorted = {-7, -1, 1, 2, 4, 5, 6, 7, 9, 10, 19, 23};
 
     @BeforeEach
     void setup(){
@@ -24,15 +25,89 @@ public class BinarySearchTreeTest {
             tree.add(v);
         }
     }
+  
+    @Test
+    void testSize(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        assertNotNull(tree);
+        assertEquals(12, tree.size());
+    }
+
+    @Test 
+    void testContains(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        assertNotNull(tree);
+        assertEquals(12, tree.size());
+        for (Integer num : arr1){
+            assertTrue(tree.contains(num));
 
     @Test
-    void testNoParameterConstructor(){
-        assertTrue(empty.isEmpty());
+    void testContainsAll(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        assertNotNull(tree);
+        assertEquals(12, tree.size());
+        assertTrue(tree.containsAll(Arrays.asList(arr1)));
     }
 
     @Test
-    void testContains(){
-        assertTrue(tree.contains(2));
+    void testMin(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        assertNotNull(tree);
+        assertEquals(12, tree.size());
+        assertEquals(-7, tree.min());
+    }
+
+    @Test
+    void testMax(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        assertNotNull(tree);
+        assertEquals(12, tree.size());
+        assertEquals(23, tree.max());
+    }
+
+    @Test
+    void testToArrayList(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+        ArrayList<Integer> arrayList = tree.toArrayList();
+
+        assertNotNull(tree);
+        assertNotNull(arrayList);
+        assertEquals(12, tree.size());
+        assertEquals(12, arrayList.size());
+        assertEquals(tree.size(), arrayList.size());
+
+        for (int index = 0; index < arr1SetSorted.length; index++){
+            assertEquals(arr1SetSorted[index], arrayList.get(index));
+        }
+    }
+    
+    @Test
+    void testNoParameterConstructor(){
+        assertTrue(empty.isEmpty());
     }
 
     @Test
@@ -43,6 +118,29 @@ public class BinarySearchTreeTest {
 
     @Test
     void testRemove(){
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        for (Integer num : arr1){
+            tree.add(num);
+        }
+
+        tree.remove(6);
+        tree.remove(7);
+        tree.remove(-7);
+
+        Integer[] newArr1SortedSet = {-1, 1, 2, 4, 5, 9, 10, 19, 23};
+        ArrayList<Integer> arrayList = tree.toArrayList();
+
+
+        assertNotNull(tree);
+        assertNotNull(arrayList);
+        assertEquals(9, tree.size());
+        assertEquals(9, newArr1SortedSet.length);
+        assertEquals(9, arrayList.size());
+        assertEquals(newArr1SortedSet.length, arrayList.size());
+        for (int index = 0; index < newArr1SortedSet.length; index++){
+            assertEquals(newArr1SortedSet[index], arrayList.get(index));
+        }
+    }
         tree.remove(2);
         assertFalse(tree.contains(2));
     }
