@@ -9,13 +9,6 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     private BinarySearchTree<E> leftNode;
     private BinarySearchTree<E> rightNode;
 
-    //todo - Delete before submitting
-    public BinarySearchTree(){
-        this.value = null;
-        this.leftNode = null;
-        this.rightNode = null;
-    }
-  
     public BinarySearchTree(E value, BinarySearchTree<E> leftNode, BinarySearchTree<E> rightNode) {
         this.value = value;
         this.leftNode = leftNode;
