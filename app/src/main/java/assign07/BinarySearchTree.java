@@ -199,19 +199,21 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
                 return true;
             }
             //has two children
+            //gets the smallest item in the right subtree
             BinarySearchTree<E> successor = this.rightNode;
             while(successor.leftNode != null){
                 successor = successor.leftNode;
             }
             
-            //copy value from the found successor
+            //copy value from the successor which is replacing this node
             this.value = successor.value;
 
-            //recurse to remove the duplicate item
+            //recurse to remove the duplicate from where the successor was found
+            //removal will be 0 or 1 child
             boolean removed = this.rightNode.remove(this.value);
-
+            
+            //unlink node
             if(isEmptyNode(this.rightNode)) this.rightNode = null;
-
             return removed;
 
         }
