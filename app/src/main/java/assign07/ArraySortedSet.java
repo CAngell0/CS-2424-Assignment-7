@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+/**
+ * An array sorted set data structure.
+ * @author Joshua Varughese and Carson Angell
+ * @version 10/23/2025
+ */
 @SuppressWarnings("unchecked")
 public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSet<E> {
     private Object[] arr;
@@ -17,6 +22,11 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         this.size = 0;
     }
 
+    /**
+     * A get helper method that gets an element form the backing array according to index.
+     * Casts the Object type to the provided generic type.
+     * @param i Index to get the element from
+     */
     private E get(int i) {
         return (E) arr[i];
     }
@@ -90,6 +100,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         size++;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean add(E item) {
         if (item == null)
@@ -101,6 +112,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean addAll(Collection<? extends E> items) {
         boolean didAdd = false;
@@ -112,17 +124,20 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return didAdd;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clear() {
         arr = new Object[defaultSize];
         this.size = 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean contains(E item) {
         return this.binarySearch(item) >= 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean containsAll(Collection<? extends E> items) {
         for (E item : items) {
@@ -132,11 +147,13 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public E min() throws NoSuchElementException {
         if (size == 0)
@@ -144,6 +161,7 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return get(0);
     }
 
+    /** {@inheritDoc} */
     @Override
     public E max() throws NoSuchElementException {
         if (size == 0)
@@ -151,11 +169,13 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
         return get(size - 1);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int size() {
         return this.size;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ArrayList<E> toArrayList() {
         ArrayList<E> returnList = new ArrayList<>(size);

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+/**
+ * A Binary Search Tree data structure where instances also represent tree nodes.
+ * @author Joshua Varughese and Carson Angell
+ * @version 23/10/25
+ */
 public class BinarySearchTree<E extends Comparable<? super E>> implements SortedSet<E> {
     private E value;
     private BinarySearchTree<E> leftNode;
@@ -15,6 +20,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         this.rightNode = rightNode;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean add(E item) {
         // empty tree
@@ -50,8 +56,10 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean addAll(Collection<? extends E> items) {
+        //Iterates through the collection and calls .add() on all the items.
         boolean didAdd = false;
         for (E item : items) {
             if (this.add(item)) {
@@ -61,6 +69,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return didAdd;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clear() {
         this.value = null;
@@ -68,13 +77,17 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         this.rightNode = null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean contains(E item) {
+        //Check for an empty tree
         if (value == null && leftNode == null && rightNode == null)
             return false;
         BinarySearchTree<E> node = this;
         int comparison = 0;
 
+        //Traverse the tree using pre-order traversal (non-recursively)
+        //If it reaches the end, return false;
         do {
             comparison = item.compareTo(node.value);
             if (comparison < 0)
@@ -86,9 +99,11 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
                 return false;
         } while (comparison != 0);
 
+        //While loop breaks when it finds a matching element, so it returns true here.
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean containsAll(Collection<? extends E> items) {
         for (E item : items) {
@@ -98,51 +113,56 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isEmpty() {
         return (this.value == null && this.leftNode == null && this.rightNode == null);
     }
 
+    /** {@inheritDoc} */
     @Override
     public E min() throws NoSuchElementException {
         if (this.value == null)
             throw new NoSuchElementException("The tree is empty.");
+
+        //Traverses the tree using post-order to get the smallest element at the bottom-left of the tree
         BinarySearchTree<E> node = this;
         while (node.leftNode != null)
             node = node.leftNode;
         return node.value;
     }
 
+    /** {@inheritDoc} */
     @Override
     public E max() throws NoSuchElementException {
         if (this.value == null)
             throw new NoSuchElementException("The tree is empty.");
+
+        //Traverses the tree to the bottom-right element and returns it
         BinarySearchTree<E> node = this;
         while (node.rightNode != null)
             node = node.rightNode;
         return node.value;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int size() {
         return size(this);
     }
-
+    
+    /**
+     * Private recursive method for size
+     * @param node
+     * @return
+     */
     private int size(BinarySearchTree<E> node) {
         if (node == null || node.value == null)
             return 0;
         return 1 + size(node.leftNode) + size(node.rightNode);
     }
 
-    /**
-     * Ensure that this set does not contain the specified item.
-     *
-     * @param item - the item whose absence is ensured in this set
-     * @return true if this set changed as a result of this method call (that is,
-     *         if the input item was actually removed); otherwise, returns false
-     * @throws UnsupportedOperationException if the {@code remove} operation is
-     *                                       not supported by the derived class
-     */
+    /** {@inheritDoc} */
     public boolean remove(E item) {
         // empty
         if (this.value == null)
@@ -152,7 +172,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
         // left node
         if (cmp < 0) {
-            // If left child doesnt exist item is not in treee
+            // If left child doest exist item is not in treee
             if (this.leftNode == null)
                 return false;
             // recurse in left subtree
@@ -218,29 +238,29 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
         }
     }
-
+    
+    /**
+     * Moves the values from childnode to this node
+     * @param child
+     */
     private void transplant(BinarySearchTree<E> child) {
         this.value = child.value;
         this.leftNode = child.leftNode;
         this.rightNode = child.rightNode;
     }
-
+    
+    /**
+     * Checks if the node is ready to be unlinked
+     * @param node
+     * @return
+     */
     private boolean isEmptyNode(BinarySearchTree<E> node) {
         return node != null && node.value == null && node.leftNode == null && node.rightNode == null;
     }
 
-    /**
-     * Ensure that this set does not contain any of the items in the specified
-     * collection.
-     *
-     * @param items - the collection of items whose absence is ensured in this set
-     * @return true if this set changed as a result of this method call (that is,
-     *         if any item in the input collection was actually removed); otherwise,
-     *         returns false
-     * @throws UnsupportedOperationException if the {@code removeAll} operation is
-     *                                       not supported by the derived class
-     */
+    /** {@inheritDoc} */
     public boolean removeAll(Collection<? extends E> items) {
+        //Iterates through the collection and calls .remove() on all items.
         boolean didRemove = false;
         for (E item : items) {
             if (this.remove(item)) {
@@ -250,6 +270,8 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return didRemove;
     }
 
+    //This method took so long because we didnt read the java doc and were trying to do it in the format shown in class :/
+    /** {@inheritDoc} */
     @Override
     public ArrayList<E> toArrayList() {
         ArrayList<E> out = new ArrayList<>();
@@ -257,6 +279,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return out;
     }
 
+    /**
+     * A helper method that traverses the tree with in-order traversal and adds each element it encounters
+     * to 'out' ArrayList.
+     * @param node The node to recursively traverse through
+     * @param out The output ArrayList of what element it visited in order.
+     */
     private void inorder(BinarySearchTree<E> node, ArrayList<E> out) {
         if (node == null || node.value == null)
             return;
