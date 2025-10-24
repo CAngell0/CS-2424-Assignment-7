@@ -1,18 +1,31 @@
 package assign07;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BinarySearchTreeTest {
+    private BinarySearchTree<Integer> empty;
+    private BinarySearchTree<Integer> tree;
     private Integer[] arr1 = {5, 1, 6, 9, 10, 2, 4, 23, 19, -1, -7, 2, 5, 7};
     private Integer[] arr1SetSorted = {-7, -1, 1, 2, 4, 5, 6, 7, 9, 10, 19, 23};
 
+    @BeforeEach
+    void setup(){
+        empty = new BinarySearchTree<Integer>();
+        tree = new BinarySearchTree<Integer>();
+
+        for(int v : new int[] {2,2,4,6,21,1,2,-4,1,5,7,3}){
+            tree.add(v);
+        }
+    }
+  
     @Test
     void testSize(){
         BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
@@ -36,8 +49,6 @@ public class BinarySearchTreeTest {
         assertEquals(12, tree.size());
         for (Integer num : arr1){
             assertTrue(tree.contains(num));
-        }
-    }
 
     @Test
     void testContainsAll(){
@@ -93,6 +104,17 @@ public class BinarySearchTreeTest {
             assertEquals(arr1SetSorted[index], arrayList.get(index));
         }
     }
+    
+    @Test
+    void testNoParameterConstructor(){
+        assertTrue(empty.isEmpty());
+    }
+
+    @Test
+    void testAdd(){
+        empty.add(5);
+        assertTrue(empty.contains(5));
+    }
 
     @Test
     void testRemove(){
@@ -119,4 +141,8 @@ public class BinarySearchTreeTest {
             assertEquals(newArr1SortedSet[index], arrayList.get(index));
         }
     }
+        tree.remove(2);
+        assertFalse(tree.contains(2));
+    }
+
 }
