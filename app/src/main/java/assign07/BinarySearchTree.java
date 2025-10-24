@@ -9,6 +9,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     private BinarySearchTree<E> leftNode;
     private BinarySearchTree<E> rightNode;
 
+    //todo - Delete before submitting
     public BinarySearchTree(){
         this.value = null;
         this.leftNode = null;
@@ -19,13 +20,6 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         this.value = value;
         this.leftNode = leftNode;
         this.rightNode = rightNode;
-    }
-
-    // DELETE BEFORE SUBMITING
-    public BinarySearchTree() {
-        this.value = null;
-        this.leftNode = null;
-        this.rightNode = null;
     }
 
     @Override

@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BinarySearchTreeTest {
@@ -49,6 +47,8 @@ public class BinarySearchTreeTest {
         assertEquals(12, tree.size());
         for (Integer num : arr1){
             assertTrue(tree.contains(num));
+        }
+    }
 
     @Test
     void testContainsAll(){
@@ -141,8 +141,4 @@ public class BinarySearchTreeTest {
             assertEquals(newArr1SortedSet[index], arrayList.get(index));
         }
     }
-        tree.remove(2);
-        assertFalse(tree.contains(2));
-    }
-
 }
