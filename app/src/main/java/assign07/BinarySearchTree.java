@@ -151,85 +151,90 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
      *                                       not supported by the derived class
      */
     public boolean remove(E item) {
-        //empty
-        if(this.value == null) return false;
+        // empty
+        if (this.value == null)
+            return false;
 
         int cmp = item.compareTo(this.value);
-        
-        //left node
-        if(cmp < 0){
-            //If left child doesnt exist item is not in treee
-            if(this.leftNode == null) return false;
-            //recurse in left subtree
+
+        // left node
+        if (cmp < 0) {
+            // If left child doesnt exist item is not in treee
+            if (this.leftNode == null)
+                return false;
+            // recurse in left subtree
             boolean removed = this.leftNode.remove(item);
 
-            //Checks if we have found the item in the else statement and then unlinks the node and returns true
-            if(isEmptyNode(this.leftNode)) this.leftNode = null;
+            // Checks if we have found the item in the else statement and then unlinks the
+            // node and returns true
+            if (isEmptyNode(this.leftNode))
+                this.leftNode = null;
             return removed;
-            
+
         }
-        //right node
-        else if(cmp > 0){
-            //if right child doesnt exsist item is not in tree
-            if(this.rightNode == null) return false;
-            //recurse in right subtree
+        // right node
+        else if (cmp > 0) {
+            // if right child doesnt exsist item is not in tree
+            if (this.rightNode == null)
+                return false;
+            // recurse in right subtree
             boolean removed = this.rightNode.remove(item);
-            
-            if(isEmptyNode(this.rightNode)) this.rightNode = null;
+
+            if (isEmptyNode(this.rightNode))
+                this.rightNode = null;
             return removed;
         }
-        //found item
-        else{
-            //no children
-            if(this.leftNode == null && this.rightNode == null){
-                //dont need to handle children and this node is set to be unlinked 
+        // found item
+        else {
+            // no children
+            if (this.leftNode == null && this.rightNode == null) {
+                // dont need to handle children and this node is set to be unlinked
                 this.value = null;
                 return true;
             }
 
-            //1 child
-            //has right child
-            if(this.leftNode == null){
+            // 1 child
+            // has right child
+            if (this.leftNode == null) {
                 transplant(this.rightNode);
                 return true;
             }
-            //has left child
-            if(this.rightNode == null){
+            // has left child
+            if (this.rightNode == null) {
                 transplant(this.leftNode);
                 return true;
             }
-            //has two children
-            //gets the smallest item in the right subtree
+            // has two children
+            // gets the smallest item in the right subtree
             BinarySearchTree<E> successor = this.rightNode;
-            while(successor.leftNode != null){
+            while (successor.leftNode != null) {
                 successor = successor.leftNode;
             }
-            
-            //copy value from the successor which is replacing this node
+
+            // copy value from the successor which is replacing this node
             this.value = successor.value;
 
-            //recurse to remove the duplicate from where the successor was found
-            //removal will be 0 or 1 child
+            // recurse to remove the duplicate from where the successor was found
+            // removal will be 0 or 1 child
             boolean removed = this.rightNode.remove(this.value);
-            
-            //unlink node
-            if(isEmptyNode(this.rightNode)) this.rightNode = null;
+
+            // unlink node
+            if (isEmptyNode(this.rightNode))
+                this.rightNode = null;
             return removed;
 
         }
     }
-    
-    private void transplant(BinarySearchTree<E> child){
+
+    private void transplant(BinarySearchTree<E> child) {
         this.value = child.value;
         this.leftNode = child.leftNode;
         this.rightNode = child.rightNode;
     }
 
-    private boolean isEmptyNode(BinarySearchTree<E> node){
+    private boolean isEmptyNode(BinarySearchTree<E> node) {
         return node != null && node.value == null && node.leftNode == null && node.rightNode == null;
     }
-
-
 
     /**
      * Ensure that this set does not contain any of the items in the specified
@@ -244,8 +249,8 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
      */
     public boolean removeAll(Collection<? extends E> items) {
         boolean didRemove = false;
-        for(E item : items){
-            if(this.remove(item)){
+        for (E item : items) {
+            if (this.remove(item)) {
                 didRemove = true;
             }
         }
