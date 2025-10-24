@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 /**
  * An array sorted set data structure.
+ * 
  * @author Joshua Varughese and Carson Angell
  * @version 10/23/2025
  */
@@ -23,8 +24,10 @@ public class ArraySortedSet<E extends Comparable<? super E>> implements SortedSe
     }
 
     /**
-     * A get helper method that gets an element form the backing array according to index.
+     * A get helper method that gets an element form the backing array according to
+     * index.
      * Casts the Object type to the provided generic type.
+     * 
      * @param i Index to get the element from
      */
     private E get(int i) {

@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 /**
- * A Binary Search Tree data structure where instances also represent tree nodes.
+ * A Binary Search Tree data structure where instances also represent tree
+ * nodes.
+ * 
  * @author Joshua Varughese and Carson Angell
  * @version 23/10/25
  */
@@ -59,7 +61,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     /** {@inheritDoc} */
     @Override
     public boolean addAll(Collection<? extends E> items) {
-        //Iterates through the collection and calls .add() on all the items.
+        // Iterates through the collection and calls .add() on all the items.
         boolean didAdd = false;
         for (E item : items) {
             if (this.add(item)) {
@@ -80,14 +82,14 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     /** {@inheritDoc} */
     @Override
     public boolean contains(E item) {
-        //Check for an empty tree
+        // Check for an empty tree
         if (value == null && leftNode == null && rightNode == null)
             return false;
         BinarySearchTree<E> node = this;
         int comparison = 0;
 
-        //Traverse the tree using pre-order traversal (non-recursively)
-        //If it reaches the end, return false;
+        // Traverse the tree using pre-order traversal (non-recursively)
+        // If it reaches the end, return false;
         do {
             comparison = item.compareTo(node.value);
             if (comparison < 0)
@@ -99,7 +101,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
                 return false;
         } while (comparison != 0);
 
-        //While loop breaks when it finds a matching element, so it returns true here.
+        // While loop breaks when it finds a matching element, so it returns true here.
         return true;
     }
 
@@ -125,7 +127,8 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         if (this.value == null)
             throw new NoSuchElementException("The tree is empty.");
 
-        //Traverses the tree using post-order to get the smallest element at the bottom-left of the tree
+        // Traverses the tree using post-order to get the smallest element at the
+        // bottom-left of the tree
         BinarySearchTree<E> node = this;
         while (node.leftNode != null)
             node = node.leftNode;
@@ -138,7 +141,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         if (this.value == null)
             throw new NoSuchElementException("The tree is empty.");
 
-        //Traverses the tree to the bottom-right element and returns it
+        // Traverses the tree to the bottom-right element and returns it
         BinarySearchTree<E> node = this;
         while (node.rightNode != null)
             node = node.rightNode;
@@ -150,9 +153,10 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     public int size() {
         return size(this);
     }
-    
+
     /**
      * Private recursive method for size
+     * 
      * @param node
      * @return
      */
@@ -238,9 +242,10 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
         }
     }
-    
+
     /**
      * Moves the values from childnode to this node
+     * 
      * @param child
      */
     private void transplant(BinarySearchTree<E> child) {
@@ -248,9 +253,10 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         this.leftNode = child.leftNode;
         this.rightNode = child.rightNode;
     }
-    
+
     /**
      * Checks if the node is ready to be unlinked
+     * 
      * @param node
      * @return
      */
@@ -260,7 +266,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
 
     /** {@inheritDoc} */
     public boolean removeAll(Collection<? extends E> items) {
-        //Iterates through the collection and calls .remove() on all items.
+        // Iterates through the collection and calls .remove() on all items.
         boolean didRemove = false;
         for (E item : items) {
             if (this.remove(item)) {
@@ -270,7 +276,8 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
         return didRemove;
     }
 
-    //This method took so long because we didnt read the java doc and were trying to do it in the format shown in class :/
+    // This method took so long because we didnt read the java doc and were trying
+    // to do it in the format shown in class :/
     /** {@inheritDoc} */
     @Override
     public ArrayList<E> toArrayList() {
@@ -280,10 +287,12 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements Sorted
     }
 
     /**
-     * A helper method that traverses the tree with in-order traversal and adds each element it encounters
+     * A helper method that traverses the tree with in-order traversal and adds each
+     * element it encounters
      * to 'out' ArrayList.
+     * 
      * @param node The node to recursively traverse through
-     * @param out The output ArrayList of what element it visited in order.
+     * @param out  The output ArrayList of what element it visited in order.
      */
     private void inorder(BinarySearchTree<E> node, ArrayList<E> out) {
         if (node == null || node.value == null)
