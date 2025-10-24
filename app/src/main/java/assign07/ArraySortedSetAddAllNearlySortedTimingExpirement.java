@@ -2,6 +2,7 @@ package assign07;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import timing.TimingExperiment;
 
@@ -11,8 +12,8 @@ public class ArraySortedSetAddAllNearlySortedTimingExpirement extends TimingExpe
 
     public static void main(String[] args) {
         int iterationCount = 50;
-        int warmup = 30;
-        List<Integer> problemSizes = buildProblemSizes(10000, 1000, 20);
+        int warmup = 20;
+        List<Integer> problemSizes = buildProblemSizes(10000, 1000, 200);
 
         TimingExperiment experiment = new ArraySortedSetAddAllNearlySortedTimingExpirement("setSize", problemSizes, iterationCount);
 
@@ -32,9 +33,10 @@ public class ArraySortedSetAddAllNearlySortedTimingExpirement extends TimingExpe
         elementsToAdd.clear();
         for (int number = 0; number < problemSize; number++) elementsToAdd.add(number);
         
+        Random rand = new Random();
         for (int i = 0; i < (int) (problemSize / 4); i++){
-            int index1 = (int) Math.random() * problemSize;
-            int index2 = (int) Math.random() * problemSize;
+            int index1 = rand.nextInt(problemSize);
+            int index2 = rand.nextInt(problemSize);
 
             Integer temp = elementsToAdd.get(index1);
             elementsToAdd.set(index1, elementsToAdd.get(index2));

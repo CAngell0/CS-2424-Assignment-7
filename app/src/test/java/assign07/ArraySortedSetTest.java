@@ -25,7 +25,7 @@ public class ArraySortedSetTest {
     @Test
     void testAdd(){
         ArraySortedSet<Integer> set = new ArraySortedSet<>();
-        for (int i = 0; i < 1000; i++) set.add((int) Math.random() * 100);
+        for (int i = 0; i < 1000; i++) set.add((int) (Math.random() * 100));
         ArrayList<Integer> array = set.toArrayList();
         
         assertNotNull(array);
@@ -40,7 +40,7 @@ public class ArraySortedSetTest {
         ArraySortedSet<Integer> set = new ArraySortedSet<>();
         for (int i = 0; i < 1000; i++){
             if (Math.random() * 10 > 5) set.add(null);
-            else set.add((int) Math.random() * 100);
+            else set.add((int) (Math.random() * 100));
         }
         ArrayList<Integer> array = set.toArrayList();
         
@@ -55,7 +55,7 @@ public class ArraySortedSetTest {
     void testAddWithNegatives(){
         ArraySortedSet<Integer> set = new ArraySortedSet<>();
         for (int i = 0; i < 1000; i++){
-            set.add(((int) Math.random() * 100) - 50);
+            set.add(((int) (Math.random() * 100)) - 50);
         }
         ArrayList<Integer> array = set.toArrayList();
         

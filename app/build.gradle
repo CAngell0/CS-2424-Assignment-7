@@ -32,6 +32,12 @@ java {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'assign07.ArraySortedSetAddAllNearlySortedTimingExpirement'
+    }
+}
+
 application {
     // Define the main class for the application.
     mainClass = 'assignment.App'
